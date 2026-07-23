@@ -1,0 +1,19 @@
+{
+  "name": "allure-report-demo",
+  "version": "1.0.0",
+  "description": "Playwright + TypeScript suite with rich Allure reporting (steps, attachments, environment info, failure categories)",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "allure:categories": "node -e \"require('fs').copyFileSync('categories.json','allure-results/categories.json')\"",
+    "allure:generate": "npm run allure:categories && allure generate ./allure-results --clean -o ./allure-report",
+    "allure:open": "allure open ./allure-report",
+    "report": "npm run allure:generate && npm run allure:open"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "allure-commandline": "^2.32.0",
+    "allure-playwright": "^3.0.9",
+    "typescript": "^5.6.3"
+  }
+}

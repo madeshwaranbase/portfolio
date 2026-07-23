@@ -1,0 +1,14 @@
+{
+  "name": "data-driven-checkout",
+  "version": "1.0.0",
+  "description": "Data-driven checkout automation using Playwright + JavaScript (POM)",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:checkout": "npx playwright test tests/checkout.spec.js",
+    "report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}

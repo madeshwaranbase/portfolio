@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Timeout failures",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*[Tt]imeout.*"
+  },
+  {
+    "name": "Assertion failures (likely product defect)",
+    "matchedStatuses": ["failed"],
+    "messageRegex": ".*expect.*"
+  },
+  {
+    "name": "Test/script defects",
+    "matchedStatuses": ["broken"],
+    "messageRegex": ".*(Cannot read|is not a function|undefined).*"
+  }
+]

@@ -1,0 +1,241 @@
+[
+  {
+    "description": "  As a QA engineer\n  I want to create a user account through the public API\n  So that I can confirm the same account is usable and reflected in the live UI",
+    "elements": [
+      {
+        "description": "",
+        "id": "account-creation-via-api-verified-through-ui-login;account-created-via-api-logs-in-successfully-through-the-ui",
+        "keyword": "Scenario",
+        "line": 10,
+        "name": "Account created via API logs in successfully through the UI",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 411179374
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I have a randomly generated user account payload",
+            "match": {
+              "location": "step-definitions/account.steps.ts:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 126291
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "I create the account using the API",
+            "match": {
+              "location": "step-definitions/account.steps.ts:19"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 965733875
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 12,
+            "name": "the API should confirm the account was created",
+            "match": {
+              "location": "step-definitions/account.steps.ts:23"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3433625
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 13,
+            "name": "I open the login page",
+            "match": {
+              "location": "step-definitions/account.steps.ts:27"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2126509874
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 14,
+            "name": "I log in with the created account's credentials",
+            "match": {
+              "location": "step-definitions/account.steps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1622396166
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 15,
+            "name": "the UI should show me logged in as the created account's name",
+            "match": {
+              "location": "step-definitions/account.steps.ts:37"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 52718791
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 348576333
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hybrid",
+            "line": 9
+          },
+          {
+            "name": "@smoke",
+            "line": 9
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "id": "account-creation-via-api-verified-through-ui-login;account-deleted-via-api-can-no-longer-log-in-through-the-ui",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Account deleted via API can no longer log in through the UI",
+        "steps": [
+          {
+            "keyword": "Before",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 118672000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 7,
+            "name": "I have a randomly generated user account payload",
+            "match": {
+              "location": "step-definitions/account.steps.ts:10"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 58332
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 19,
+            "name": "the account has already been created via the API",
+            "match": {
+              "location": "step-definitions/account.steps.ts:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 281633667
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "I delete the account using the API",
+            "match": {
+              "location": "step-definitions/account.steps.ts:47"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 284213208
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 21,
+            "name": "I open the login page",
+            "match": {
+              "location": "step-definitions/account.steps.ts:27"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2123159417
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "line": 22,
+            "name": "I log in with the created account's credentials",
+            "match": {
+              "location": "step-definitions/account.steps.ts:32"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1223192667
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 23,
+            "name": "the UI should show an invalid login error",
+            "match": {
+              "location": "step-definitions/account.steps.ts:42"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 30994708
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "result": {
+              "status": "passed",
+              "duration": 21378207
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@hybrid",
+            "line": 17
+          },
+          {
+            "name": "@cleanup",
+            "line": 17
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "account-creation-via-api-verified-through-ui-login",
+    "line": 1,
+    "keyword": "Feature",
+    "name": "Account creation via API verified through UI login",
+    "tags": [],
+    "uri": "features/account-hybrid.feature"
+  }
+]

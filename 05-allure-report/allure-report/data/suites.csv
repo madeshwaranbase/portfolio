@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","452","wrong password shows generic error","chromium","2026-07-24","passed","2026-07-24","Login","login.spec.ts","",""
+"","1177","sorting price low to high orders prices ascending","chromium","2026-07-24","passed","2026-07-24","Inventory sorting","inventory.spec.ts","",""
+"","485","locked_out_user is blocked with an error","chromium","2026-07-24","passed","2026-07-24","Login","login.spec.ts","",""
+"","1209","adding two items updates cart badge to 2","chromium","2026-07-24","passed","2026-07-24","Inventory sorting","inventory.spec.ts","",""
+"","1174","sorting price high to low orders prices descending","chromium","2026-07-24","passed","2026-07-24","Inventory sorting","inventory.spec.ts","",""
+"","1183","standard_user logs in successfully","chromium","2026-07-24","passed","2026-07-24","Login","login.spec.ts","",""
