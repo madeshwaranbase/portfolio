@@ -1,0 +1,42 @@
+[
+  {
+    "scenario": "valid_standard_user",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "product": "Sauce Labs Backpack",
+    "firstName": "Madan",
+    "lastName": "Kumar",
+    "postalCode": "641001",
+    "expected": "success"
+  },
+  {
+    "scenario": "valid_problem_user",
+    "username": "problem_user",
+    "password": "secret_sauce",
+    "product": "Sauce Labs Bike Light",
+    "firstName": "Ravi",
+    "lastName": "S",
+    "postalCode": "560001",
+    "expected": "known_broken"
+  },
+  {
+    "scenario": "missing_first_name",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "product": "Sauce Labs Bolt T-Shirt",
+    "firstName": "",
+    "lastName": "Iyer",
+    "postalCode": "600001",
+    "expected": "error"
+  },
+  {
+    "scenario": "missing_postal_code",
+    "username": "standard_user",
+    "password": "secret_sauce",
+    "product": "Sauce Labs Fleece Jacket",
+    "firstName": "Divya",
+    "lastName": "R",
+    "postalCode": "",
+    "expected": "error"
+  }
+]
