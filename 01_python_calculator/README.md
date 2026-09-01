@@ -1,25 +1,59 @@
-# Project - CLI Calculator
+# Simple Calculator (CLI)
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A command-line calculator supporting addition, subtraction, multiplication, and division, with a full pytest suite covering core logic and edge cases.
 
-## What it does
+## Why this project
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+Project 01 of a 20-project Python/Selenium portfolio built to demonstrate QA/SDET fundamentals: clean function design, exception handling, and test coverage from day one — not just working code.
 
-## Skills practiced
+## Features
 
-- Variables\n- functions\n- conditions\n- loops\n- exception handling
+- Four core operations via a single dispatch table (`OPERATIONS`)
+- Custom `DivisionByZeroError` instead of silent `None` returns
+- Type-hinted, documented functions
+- Input validation with clear error messages
+- 13 unit tests (pytest, parametrized) covering happy paths, edge cases, and invalid input
 
-## Run
+## Tech stack
 
-```bash
-python calculator.py
+- Python 3.12
+- pytest
+
+## Project structure
+
+```
+01_python_calculator/
+├── calculator.py         # core logic + CLI loop
+├── test_calculator.py    # pytest suite
+└── README.md
 ```
 
-## Files
+## How to run
 
-See the Python source file in this folder.
+```bash
+# Run the calculator
+python3 calculator.py
 
-## Learning note
+# Run the tests
+pip install pytest
+pytest test_calculator.py -v
+```
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+## Sample run
+
+```
+Simple Calculator
+-----------------
+Enter first number: 10
+Enter operator (+, -, *, /): /
+Enter second number: 0
+Cannot divide by zero.
+Calculate again? (y/n): n
+Calculator closed.
+```
+
+## Test results
+
+```
+13 passed in 0.02s
+```
