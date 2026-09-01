@@ -1,25 +1,55 @@
-# Project - File Organizer
+# File Organizer (CLI)
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A CLI tool that sorts files in a folder into subfolders by type (Images, Documents, Videos, Music, Others), with destructive file operations fully covered by tests.
 
-## What it does
+## Why this project
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+Project 05 of a 20-project Python/Selenium portfolio. This one performs real file-system moves, so testing it safely matters: every test runs against pytest's `tmp_path` fixture (isolated temp directory, auto-cleaned), never the real filesystem — the same discipline required for automation that reads/writes test fixtures, downloads, or reports.
 
-## Skills practiced
+## Features
 
-- pathlib\n- shutil\n- file automation
+- `classify_file()` — pure function mapping extension → category, fully isolated from disk access
+- `organize_folder()` — returns a log of actions instead of printing directly, so behavior is assertable
+- Safe by default: skips (never overwrites) files that already exist at the destination
+- 13 unit tests (pytest) covering classification, moves, collisions, subdirectories, and missing folders
 
-## Run
+## Tech stack
 
-```bash
-python file_organizer.py
+- Python 3.12
+- pytest
+
+## Project structure
+
+```
+05_file_organizer/
+├── file_organizer.py         # core logic + CLI
+├── test_file_organizer.py    # pytest suite
+└── README.md
 ```
 
-## Files
+## How to run
 
-See the Python source file in this folder.
+```bash
+# Organize a folder
+python3 file_organizer.py
 
-## Learning note
+# Run the tests (safe — uses temp directories, never touches real files)
+pip install pytest
+pytest test_file_organizer.py -v
+```
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+## Sample run
+
+```
+Folder to organize: ./Downloads
+Moved photo.jpg -> Images
+Moved report.pdf -> Documents
+Skipped existing file: song.mp3
+Organization complete.
+```
+
+## Test results
+
+```
+13 passed in 0.03s
+```
