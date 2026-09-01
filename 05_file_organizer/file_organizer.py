@@ -1,7 +1,12 @@
-from pathlib import Path
-import shutil
+"""
+File Organizer (CLI)
 
-SOURCE = Path(input("Folder to organize: ").strip())
+Organizes files in a folder into subfolders by type (Images, Documents, Videos, Music, Others).
+
+Author: Madeshwaran
+"""
+import shutil
+from pathlib import Path
 
 FILE_TYPES = {
     "Images": [".jpg", ".jpeg", ".png", ".gif", ".webp"],
@@ -9,31 +14,59 @@ FILE_TYPES = {
     "Videos": [".mp4", ".mkv", ".mov", ".avi"],
     "Music": [".mp3", ".wav", ".flac"],
 }
+OTHERS_CATEGORY = "Others"
 
-if not SOURCE.exists() or not SOURCE.is_dir():
-    print("Folder does not exist.")
-    raise SystemExit
 
-for file in SOURCE.iterdir():
-    if not file.is_file():
-        continue
+def classify_file(file_name: str, file_types: dict = FILE_TYPES) -> str:
+    """Return the category name for a file based on its extension."""
+    suffix = Path(file_name).suffix.lower()
+    for category, extensions in file_types.items():
+        if suffix in extensions:
+            return category
+    return OTHERS_CATEGORY
 
-    folder_name = "Others"
 
-    for category, extensions in FILE_TYPES.items():
-        if file.suffix.lower() in extensions:
-            folder_name = category
-            break
+def organize_folder(source: Path) -> list[str]:
+    """
+    Move each file in `source` into a subfolder based on its type.
+    Returns a list of human-readable log messages describing what happened.
+    Raises FileNotFoundError if source doesn't exist or isn't a directory.
+    """
+    if not source.exists() or not source.is_dir():
+        raise FileNotFoundError(f"Folder does not exist: {source}")
 
-    destination = SOURCE / folder_name
-    destination.mkdir(exist_ok=True)
+    log = []
+    for file in source.iterdir():
+        if not file.is_file():
+            continue
 
-    target = destination / file.name
-    if target.exists():
-        print(f"Skipped existing file: {file.name}")
-        continue
+        folder_name = classify_file(file.name)
+        destination = source / folder_name
+        destination.mkdir(exist_ok=True)
+        target = destination / file.name
 
-    shutil.move(str(file), str(target))
-    print(f"Moved {file.name} -> {folder_name}")
+        if target.exists():
+            log.append(f"Skipped existing file: {file.name}")
+            continue
 
-print("Organization complete.")
+        shutil.move(str(file), str(target))
+        log.append(f"Moved {file.name} -> {folder_name}")
+
+    return log
+
+
+def main() -> None:
+    source = Path(input("Folder to organize: ").strip())
+    try:
+        log = organize_folder(source)
+    except FileNotFoundError as e:
+        print(e)
+        raise SystemExit
+
+    for line in log:
+        print(line)
+    print("Organization complete.")
+
+
+if __name__ == "__main__":
+    main()
