@@ -1,25 +1,53 @@
-# Project - Password Generator
+# Password Generator (CLI)
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A CLI tool that generates cryptographically secure random passwords, with validation and generation logic fully unit-tested.
 
-## What it does
+## Why this project
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+Project 04 of a 20-project Python/Selenium portfolio. Demonstrates use of `secrets` (not `random`) for security-sensitive generation, and testing randomized output — asserting on character-set membership and length rather than exact values, since exact output can't be predicted.
 
-## Skills practiced
+## Features
 
-- strings\n- secrets\n- validation
+- Uses `secrets.choice()` for cryptographically secure randomness
+- Length validation with clear, distinct error messages
+- Configurable character set via function parameter
+- 10 unit tests (pytest) covering validation edge cases and randomized-output properties
 
-## Run
+## Tech stack
 
-```bash
-python password_generator.py
+- Python 3.12
+- pytest
+
+## Project structure
+
+```
+04_password_generator/
+├── password_generator.py         # core logic + CLI
+├── test_password_generator.py    # pytest suite
+└── README.md
 ```
 
-## Files
+## How to run
 
-See the Python source file in this folder.
+```bash
+# Generate a password
+python3 password_generator.py
 
-## Learning note
+# Run the tests
+pip install pytest
+pytest test_password_generator.py -v
+```
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+## Sample run
+
+```
+Password length: 16
+Generated password:
+xT9#kLp2@fQ7&mZs
+```
+
+## Test results
+
+```
+10 passed in 0.02s
+```
