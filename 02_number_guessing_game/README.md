@@ -1,25 +1,58 @@
-# Project - Number Guessing Game
+# Number Guessing Game (CLI)
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A CLI number-guessing game where the player guesses a randomly generated number between 1–100, with core logic separated from I/O for full test coverage.
 
-## What it does
+## Why this project
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+Project 02 of a 20-project Python/Selenium portfolio. Demonstrates refactoring random/interactive logic into pure, testable functions — the same separation-of-concerns pattern used in real test automation frameworks.
 
-## Skills practiced
+## Features
 
-- random\n- loops\n- conditions\n- counters
+- Pure `check_guess()` function (no I/O) — fully testable
+- Configurable random range via `get_random_number(low, high)`
+- Input validation with retry loop
+- 11 unit tests (pytest, parametrized) covering boundaries and randomness bounds
 
-## Run
+## Tech stack
 
-```bash
-python guessing_game.py
+- Python 3.12
+- pytest
+
+## Project structure
+
+```
+02_number_guessing_game/
+├── game.py         # core logic + CLI loop
+├── test_game.py    # pytest suite
+└── README.md
 ```
 
-## Files
+## How to run
 
-See the Python source file in this folder.
+```bash
+# Play the game
+python3 game.py
 
-## Learning note
+# Run the tests
+pip install pytest
+pytest test_game.py -v
+```
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+## Sample run
+
+```
+Number Guessing Game
+I'm thinking of a number between 1 and 100.
+Your guess: 50
+Too high.
+Your guess: 25
+Too low.
+Your guess: 37
+Correct! You got it in 3 attempts.
+```
+
+## Test results
+
+```
+11 passed in 0.02s
+```
