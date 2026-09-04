@@ -9,6 +9,7 @@ def driver():
     browser.quit()
 
 
-def test_example(driver):
+def test_homepage_title(driver):
     driver.get("https://the-internet.herokuapp.com/")
+
     assert "The Internet" in driver.title
