@@ -1,25 +1,32 @@
-# Project - Test Result Reporter
+# 10 — Test Result Reporter
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A CLI tool that reads test results from a CSV file and generates a pass/fail summary report, both printed and saved to disk. Demonstrates CSV parsing, `collections.Counter`, and structuring reporting logic so it's testable independent of file I/O and `print`.
 
 ## What it does
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+- Auto-generates a sample `test_results.csv` if one doesn't exist
+- Reads `test_name,status` rows
+- Computes total/passed/failed counts and pass rate
+- Lists all failed test names (or "None" if all passed)
+- Writes the report to `test_report.txt` and prints it to stdout
 
-## Skills practiced
+## Why this project
 
-- CSV\n- reporting\n- statistics
+The original script ran everything — file creation, CSV parsing, counting, report formatting, writing, and printing — at module scope in one linear block. Refactored into `ensure_sample_input()`, `load_results()`, `build_report()`, and `save_report()`, with `build_report()` as a pure function that takes parsed rows and returns a report string with no I/O. This mirrors how a real CI test-report generator should be built: the reporting logic needs to be verifiable against fixed input without re-running an actual test suite or touching the filesystem.
 
-## Run
+## Run it
 
 ```bash
 python test_result_reporter.py
 ```
 
-## Files
+## Run the tests
 
-See the Python source file in this folder.
+```bash
+pip install pytest --break-system-packages
+pytest test_test_result_reporter.py -v
+```
 
-## Learning note
+## Tech
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+Python 3, `csv`, `collections.Counter`, `pathlib`, `pytest`.
