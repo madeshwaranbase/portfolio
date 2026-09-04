@@ -7,7 +7,6 @@ FILE_NAME = Path("tasks.json")
 def load_tasks():
     if not FILE_NAME.exists():
         return []
-
     try:
         return json.loads(FILE_NAME.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
@@ -25,7 +24,6 @@ def show_tasks(tasks):
     if not tasks:
         print("No tasks.")
         return
-
     for index, task in enumerate(tasks, start=1):
         mark = "x" if task["done"] else " "
         print(f"{index}. [{mark}] {task['title']}")
@@ -36,7 +34,6 @@ def add_task(tasks):
     if not title:
         print("Task cannot be empty.")
         return
-
     tasks.append({"title": title, "done": False})
     save_tasks(tasks)
     print("Task added.")
@@ -44,9 +41,10 @@ def add_task(tasks):
 
 def complete_task(tasks):
     show_tasks(tasks)
-
     try:
         number = int(input("Task number: "))
+        if not 1 <= number <= len(tasks):
+            raise IndexError
         tasks[number - 1]["done"] = True
         save_tasks(tasks)
         print("Task completed.")
@@ -56,9 +54,10 @@ def complete_task(tasks):
 
 def delete_task(tasks):
     show_tasks(tasks)
-
     try:
         number = int(input("Task number: "))
+        if not 1 <= number <= len(tasks):
+            raise IndexError
         removed = tasks.pop(number - 1)
         save_tasks(tasks)
         print(f"Deleted: {removed['title']}")
@@ -68,16 +67,13 @@ def delete_task(tasks):
 
 def main():
     tasks = load_tasks()
-
     while True:
         print("\n1. Add task")
         print("2. List tasks")
         print("3. Complete task")
         print("4. Delete task")
         print("5. Exit")
-
         choice = input("Choose: ").strip()
-
         if choice == "1":
             add_task(tasks)
         elif choice == "2":
