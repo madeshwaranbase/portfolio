@@ -1,25 +1,40 @@
-# Project - API Data Checker
+# 07 — Log File Analyzer
 
-A practical beginner Python project from my automation engineering learning portfolio.
+A CLI tool that parses a log file and reports counts per log level plus the most frequent error message. Demonstrates text parsing, `collections.Counter`, and structuring a script so its core logic is unit-testable in isolation from I/O and `print`.
 
 ## What it does
 
-This project focuses on one small, useful problem and keeps the implementation intentionally straightforward.
+- Auto-generates a sample `sample.log` if one doesn't exist
+- Counts log lines by level (`INFO`, `ERROR`, `WARNING`, etc.)
+- Tracks the frequency of each distinct `ERROR` message
+- Prints a summary with the level breakdown and the single most common error
 
-## Skills practiced
+## Why this project
 
-- requests\n- status validation\n- JSON
+The original version ran everything at module scope — no functions, so there was nothing to call from a test without subprocessing the whole script. Refactored it into `parse_log()` and `format_summary()` as pure functions returning data/strings instead of printing directly, which is the same separation-of-concerns pattern needed to make any CLI or reporting tool testable.
 
-## Run
+## Run it
 
 ```bash
-pip install -r requirements.txt && python api_checker.py
+python log_file_analyzer.py
 ```
 
-## Files
+## Run the tests
 
-See the Python source file in this folder.
+```bash
+pip install pytest --break-system-packages
+pytest test_log_file_analyzer.py -v
+```
 
-## Learning note
+13 tests:
 
-The goal is to understand the code, modify it, break it, fix it, and then improve it. This project is intentionally not over-engineered.
+| Area | Coverage |
+|---|---|
+| `ensure_sample_log` | creates file when missing, doesn't overwrite existing |
+| `parse_log` | level counts, error message counts, blank lines skipped, level with no message, non-ERROR levels excluded from messages, empty file |
+| `format_summary` | header present, level lines formatted, most-common-error shown/omitted |
+| `main` | end-to-end run in an isolated temp cwd |
+
+## Tech
+
+Python 3, `collections.Counter`, `pathlib`, `pytest`, `monkeypatch`.
