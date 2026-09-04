@@ -3,6 +3,13 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
+@pytest.fixture
+def driver():
+    browser = webdriver.Chrome()
+    yield browser
+    browser.quit()
+
+
 @pytest.mark.parametrize(
     "username,password,expected",
     [
@@ -11,8 +18,7 @@ from selenium.webdriver.common.by import By
         ("wrong-user", "SuperSecretPassword!", "failure"),
     ],
 )
-def test_login_data(username, password, expected):
-    driver = webdriver.Chrome()
+def test_login_data(driver, username, password, expected):
     driver.get("https://the-internet.herokuapp.com/login")
 
     driver.find_element(By.ID, "username").send_keys(username)
@@ -24,6 +30,7 @@ def test_login_data(username, password, expected):
     if expected == "success":
         assert "You logged into a secure area!" in message
     else:
-        assert "Your username is invalid!" in message or "Your password is invalid!" in message
-
-    driver.quit()
+        assert (
+            "Your username is invalid!" in message
+            or "Your password is invalid!" in message
+        )
