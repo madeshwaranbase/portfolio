@@ -22,6 +22,9 @@ def save_employees(employees):
 
 def add_employee(employees):
     employee_id = input("Employee ID: ").strip()
+    if not employee_id:
+        print("Employee ID cannot be empty.")
+        return
 
     if any(e["id"] == employee_id for e in employees):
         print("Employee ID already exists.")
@@ -29,58 +32,77 @@ def add_employee(employees):
 
     name = input("Name: ").strip()
     department = input("Department: ").strip()
-    salary = input("Salary: ").strip()
+    salary_raw = input("Salary: ").strip()
+
+    if not name or not department:
+        print("Name and department cannot be empty.")
+        return
+
+    try:
+        salary = float(salary_raw)
+        if salary < 0:
+            raise ValueError
+    except ValueError:
+        print("Salary must be a non-negative number.")
+        return
 
     employees.append({
         "id": employee_id,
         "name": name,
         "department": department,
-        "salary": salary
+        "salary": salary,
     })
     save_employees(employees)
-    print("Employee added.")
+    print(f"Employee {employee_id} added.")
 
 
 def search_employee(employees):
-    search = input("Enter ID or name: ").strip().lower()
-
+    query = input("Search by ID or name: ").strip().lower()
     results = [
         e for e in employees
-        if search in e["id"].lower() or search in e["name"].lower()
+        if query == e["id"].lower() or query in e["name"].lower()
     ]
 
     if not results:
-        print("No employee found.")
+        print("No matching employees found.")
         return
 
-    for employee in results:
-        print(employee)
+    for e in results:
+        print(f"{e['id']} | {e['name']} | {e['department']} | {e['salary']}")
 
 
 def delete_employee(employees):
     employee_id = input("Employee ID to delete: ").strip()
-    original_count = len(employees)
+    match = next((e for e in employees if e["id"] == employee_id), None)
 
-    employees[:] = [e for e in employees if e["id"] != employee_id]
+    if not match:
+        print("Employee ID not found.")
+        return
 
-    if len(employees) == original_count:
-        print("Employee not found.")
-    else:
-        save_employees(employees)
-        print("Employee deleted.")
+    confirm = input(f"Delete {match['name']} ({employee_id})? [y/N]: ").strip().lower()
+    if confirm != "y":
+        print("Cancelled.")
+        return
+
+    employees.remove(match)
+    save_employees(employees)
+    print(f"Employee {employee_id} deleted.")
+
+
+def print_menu():
+    print("\n1. Add employee")
+    print("2. Search employee")
+    print("3. Delete employee")
+    print("4. List all")
+    print("5. Exit")
 
 
 def main():
     employees = load_employees()
 
     while True:
-        print("\n1. Add employee")
-        print("2. Search employee")
-        print("3. Delete employee")
-        print("4. Show all")
-        print("5. Exit")
-
-        choice = input("Choose: ").strip()
+        print_menu()
+        choice = input("Choose an option: ").strip()
 
         if choice == "1":
             add_employee(employees)
@@ -89,12 +111,15 @@ def main():
         elif choice == "3":
             delete_employee(employees)
         elif choice == "4":
-            for employee in employees:
-                print(employee)
+            if not employees:
+                print("No employees on record.")
+            for e in employees:
+                print(f"{e['id']} | {e['name']} | {e['department']} | {e['salary']}")
         elif choice == "5":
+            print("Goodbye.")
             break
         else:
-            print("Invalid choice.")
+            print("Invalid option.")
 
 
 if __name__ == "__main__":
