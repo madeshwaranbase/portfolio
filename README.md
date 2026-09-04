@@ -482,4 +482,3 @@ Python | Selenium | Pytest | API Testing | SDET Automation
 GitHub:
 [https://github.com/madeshwaranbase](https://github.com/madeshwaranbase)
 
-They are not useful README content and make the repository look less polished. The version above is cleaner and more appropriate for an **SDET portfolio/recruiter review**.
