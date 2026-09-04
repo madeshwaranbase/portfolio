@@ -48,6 +48,3 @@ All **3 parameterized test cases** should pass:
 3 passed
 ```
 
-### Recommended Improvement
-
-Your logic is correct. For consistency with your previous tests, use a Pytest `driver` fixture so the browser is guaranteed to close even if an assertion fails.
