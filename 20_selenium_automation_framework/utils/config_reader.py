@@ -2,10 +2,24 @@ from configparser import ConfigParser
 from pathlib import Path
 
 
-CONFIG_FILE = Path(__file__).resolve().parents[1] / "config" / "config.ini"
+class ConfigReader:
 
+    def __init__(self):
+        self.config = ConfigParser()
 
-def get_config():
-    config = ConfigParser()
-    config.read(CONFIG_FILE)
-    return config
+        config_path = (
+            Path(__file__).resolve().parent.parent
+            / "config"
+            / "config.ini"
+        )
+
+        self.config.read(config_path)
+
+    def get(self, section, key):
+        return self.config.get(section, key)
+
+    def get_int(self, section, key):
+        return self.config.getint(section, key)
+
+    def get_boolean(self, section, key):
+        return self.config.getboolean(section, key)
