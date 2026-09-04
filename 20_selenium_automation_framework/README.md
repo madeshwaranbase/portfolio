@@ -465,5 +465,3 @@ The objective of this project is to demonstrate practical **SDET automation engi
 * Test maintainability
 * CI/CD integration
 * Scalable test execution
-
-The framework is intentionally designed to grow from a basic Selenium implementation into a **production-style automation framework suitable for real-world SDET workflows**.
