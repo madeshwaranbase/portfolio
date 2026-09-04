@@ -16,5 +16,5 @@ def pytest_runtest_makereport(item, call):
         driver = item.funcargs.get("driver")
 
         if driver:
-            file_name = SCREENSHOT_DIR / f"{item.name}.png"
-            driver.save_screenshot(str(file_name))
+            screenshot_path = SCREENSHOT_DIR / f"{item.name}.png"
+            driver.save_screenshot(str(screenshot_path))
