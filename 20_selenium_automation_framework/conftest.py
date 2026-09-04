@@ -1,42 +1,28 @@
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
-from utils.config_reader import get_config
+from utils.config_reader import ConfigReader
+from utils.driver_factory import create_driver
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--browser",
-        action="store",
-        default=None,
-        help="Browser name. Currently supports chrome."
-    )
-    parser.addoption(
-        "--headless",
-        action="store_true",
-        help="Run Chrome in headless mode."
-    )
+config = ConfigReader()
 
 
 @pytest.fixture
-def driver(request):
-    config = get_config()
-    browser = request.config.getoption("--browser") or config["browser"]["name"]
-    headless = request.config.getoption("--headless")
+def driver():
+    browser = config.get("browser", "browser")
+    headless = config.get_boolean("browser", "headless")
 
-    if browser.lower() != "chrome":
-        raise ValueError("This example framework currently supports Chrome.")
+    driver = create_driver(
+        browser=browser,
+        headless=headless
+    )
 
-    options = Options()
+    implicit_wait = config.get_int(
+        "timeouts",
+        "implicit_wait"
+    )
 
-    if headless:
-        options.add_argument("--headless=new")
-
-    options.add_argument("--window-size=1440,900")
-
-    driver = webdriver.Chrome(options=options)
-    driver.implicitly_wait(3)
+    driver.implicitly_wait(implicit_wait)
 
     yield driver
 
