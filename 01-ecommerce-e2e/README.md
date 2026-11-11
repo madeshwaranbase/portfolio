@@ -1,110 +1,38 @@
-# 🛒 E-Commerce E2E Test Suite — Playwright
+# 01 Ecommerce E2E
 
-A portfolio project showcasing end-to-end test automation skills using **Playwright** with a **Page Object Model (POM)** architecture, built with **JavaScript**.
+Full customer journey: authentication, event discovery, ticket selection, booking and booking history.
 
-**Target Application:** [rahulshettyacademy.com/client](https://rahulshettyacademy.com/client)
+## Application under test
+- UI: https://eventhub.rahulshettyacademy.com/login
+- API docs: https://api.eventhub.rahulshettyacademy.com/api/docs/
 
----
-
-## 📌 Project Overview
-
-This project demonstrates real-world QA automation practices including structured test design, reusable page objects, custom fixtures, and centralized test data management — all applied to a live e-commerce web application.
-
----
-
-## ✅ Test Coverage
-
-| Flow | Description |
-|------|-------------|
-| 🔐 Login | Valid user authentication |
-| 🛍️ Browse Products | Search and select products from the catalogue |
-| 🛒 Add to Cart | Add multiple products and verify cart state |
-| 💳 Checkout | Fill shipping details and place order |
-| 📦 Order History | Verify placed order appears in order history |
-
----
-
-## 🏗️ Project Structure
-
-```
-ecommerce-pw/
-├── fixtures/
-│   └── index.js              # Custom test fixtures — injects page objects into tests
-├── pages/
-│   ├── LoginPage.js          # Login page selectors and actions
-│   ├── ProductsPage.js       # Product listing, search, add to cart
-│   ├── CartPage.js           # Cart view and proceed to checkout
-│   ├── CheckoutPage.js       # Address form and order placement
-│   └── OrdersPage.js         # Order history verification
-├── tests/
-│   └── ecommerce.spec.js     # Main E2E test spec
-├── utils/
-│   └── testData.js           # Centralized test credentials and product data
-├── playwright.config.js
-└── package.json
-```
-
----
-
-## 🧱 Architecture Highlights
-
-- **Page Object Model (POM)** — each page is a class with its own selectors and action methods
-- **Custom Fixtures** — page objects are injected via `test.extend()` for clean, DRY test code
-- **Centralized Test Data** — credentials and product names managed in `utils/testData.js`
-- **Playwright Config** — base URL, browser settings, and timeouts configured in `playwright.config.js`
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js v18+
-- npm
-
-### Installation
-
+## Install and configure
 ```bash
-git clone https://github.com/madeshwaranbase/portfolio.git
-cd portfolio
 npm install
 npx playwright install
+cp .env.example .env
 ```
+Set your own EventHub sandbox account credentials in `.env`. Never commit secrets.
 
-### Run Tests
-
+## Run
 ```bash
-# Run all tests
-npx playwright test
-
-# Run with UI mode
-npx playwright test --ui
-
-# Run headed (see browser)
-npx playwright test --headed
-
-# View HTML report
-npx playwright show-report
+npm test
+npm run typecheck
+npm run report
 ```
 
----
+## Architecture
+- `src/pages`: page objects and UI interactions
+- `src/fixtures`: reusable test fixtures
+- `src/api`: API client and OpenAPI contract helpers
+- `tests`: focused UI/API test specifications
+- `.github/workflows`: CI workflow
 
-## 🛠️ Tech Stack
+## API contract integrity
+The Swagger UI did not expose readable operation definitions in the documentation retrieval environment. This project loads the actual OpenAPI JSON at runtime. Set `OPENAPI_SPEC_URL` to the exact JSON URL shown by Swagger. API routes and payloads must be selected from that document; this framework does not invent EventHub routes or schemas.
 
-| Tool | Purpose |
-|------|---------|
-| [Playwright](https://playwright.dev) | Browser automation framework |
-| JavaScript (ES6+) | Test scripting language |
-| Page Object Model | Test architecture pattern |
-| HTML Reporter | Built-in Playwright test reporting |
+## Safety and data
+Booking creation is disabled by default. Set `RUN_MUTATING_TESTS=true` only when using a dedicated practice account and you intentionally want to create bookings. Never clear shared bookings automatically.
 
----
-
-## 👨‍💻 Author
-
-**Madeshwaran Ponnudurai**  
-QA Automation Engineer  
-[GitHub](https://github.com/madeshwaranbase)
-
----
-
-> Built to demonstrate end-to-end automation skills with industry-standard patterns.
+## Validation status
+Source code is generated against the provided EventHub page captures and known UI selectors. Live execution and API contract validation remain environment-dependent and must be run before claiming passing results.

@@ -1,0 +1,7 @@
+[
+  {"caseId":"valid-customer","name":"Automation User","email":"qa.user@example.com","phone":"+919876543210","expectedEmailValid":true},
+  {"caseId":"malformed-email","name":"Automation User","email":"invalid-email","phone":"+919876543210","expectedEmailValid":false},
+  {"caseId":"empty-email","name":"Automation User","email":"","phone":"+919876543210","expectedEmailValid":false},
+  {"caseId":"empty-name","name":"","email":"qa.user@example.com","phone":"+919876543210","expectedEmailValid":true},
+  {"caseId":"empty-phone","name":"Automation User","email":"qa.user@example.com","phone":"","expectedEmailValid":true}
+]

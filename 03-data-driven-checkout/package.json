@@ -1,14 +1,20 @@
 {
-  "name": "data-driven-checkout",
+  "name": "03-data-driven-checkout",
   "version": "1.0.0",
-  "description": "Data-driven checkout automation using Playwright + JavaScript (POM)",
+  "private": true,
+  "description": "Data-driven form validation, ticket quantity boundaries and non-mutating checkout checks.",
   "scripts": {
-    "test": "npx playwright test",
-    "test:headed": "npx playwright test --headed",
-    "test:checkout": "npx playwright test tests/checkout.spec.js",
-    "report": "npx playwright show-report"
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "test:ui": "playwright test tests/ui",
+    "test:headed": "playwright test --headed"
   },
   "devDependencies": {
-    "@playwright/test": "^1.48.0"
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "dotenv": "^16.5.0"
   }
 }

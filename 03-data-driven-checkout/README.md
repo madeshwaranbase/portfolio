@@ -1,52 +1,38 @@
-# Data-Driven Checkout — Playwright/JS
+# 03 Data Driven Checkout
 
-POM-based checkout automation against saucedemo.com, driven entirely off `data/checkoutData.json`. Add a scenario to the JSON, it runs as a test — no spec changes needed.
+Data-driven form validation, ticket quantity boundaries and non-mutating checkout checks.
 
-## Structure
-```
-data-driven-checkout/
-├─ pages/
-│  ├─ LoginPage.js
-│  ├─ InventoryPage.js
-│  ├─ CartPage.js
-│  └─ CheckoutPage.js
-├─ data/
-│  └─ checkoutData.json      # test cases: user, product, buyer info, expected outcome
-├─ utils/
-│  └─ testDataReader.js      # JSON loader
-├─ tests/
-│  └─ checkout.spec.js       # loops over checkoutData.json
-├─ .github/workflows/playwright.yml
-├─ playwright.config.js
-└─ package.json
-```
+## Application under test
+- UI: https://eventhub.rahulshettyacademy.com/login
+- API docs: https://api.eventhub.rahulshettyacademy.com/api/docs/
 
-## Run
+## Install and configure
 ```bash
 npm install
 npx playwright install
-npm test                 # all
-npm run test:checkout    # checkout suite only
-npm run test:headed      # watch it run
-npm run report           # open HTML report
+cp .env.example .env
+```
+Set your own EventHub sandbox account credentials in `.env`. Never commit secrets.
+
+## Run
+```bash
+npm test
+npm run typecheck
+npm run report
 ```
 
-## Add a new case
-Append an object to `data/checkoutData.json`:
-```json
-{
-  "scenario": "your_case_name",
-  "username": "standard_user",
-  "password": "secret_sauce",
-  "product": "Sauce Labs Backpack",
-  "firstName": "X",
-  "lastName": "Y",
-  "postalCode": "641001",
-  "expected": "success"
-}
-```
-Set `expected` to `"error"` to assert a validation-error path instead of order completion.
+## Architecture
+- `src/pages`: page objects and UI interactions
+- `src/fixtures`: reusable test fixtures
+- `src/api`: API client and OpenAPI contract helpers
+- `tests`: focused UI/API test specifications
+- `.github/workflows`: CI workflow
 
-## Notes
-- `InventoryPage.productAddButton()` derives the `data-test` selector from the product name — no hardcoded per-product locators.
-- Swap `baseURL` in `playwright.config.js` to point this at your own app; the POM structure and data-driven pattern carry over unchanged.
+## API contract integrity
+The Swagger UI did not expose readable operation definitions in the documentation retrieval environment. This project loads the actual OpenAPI JSON at runtime. Set `OPENAPI_SPEC_URL` to the exact JSON URL shown by Swagger. API routes and payloads must be selected from that document; this framework does not invent EventHub routes or schemas.
+
+## Safety and data
+Booking creation is disabled by default. Set `RUN_MUTATING_TESTS=true` only when using a dedicated practice account and you intentionally want to create bookings. Never clear shared bookings automatically.
+
+## Validation status
+Source code is generated against the provided EventHub page captures and known UI selectors. Live execution and API contract validation remain environment-dependent and must be run before claiming passing results.

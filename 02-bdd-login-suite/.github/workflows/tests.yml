@@ -1,0 +1,20 @@
+name: BDD Authentication Tests
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  bdd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 20}
+      - run: npm install
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+        env:
+          EVENTHUB_EMAIL: ${{ secrets.EVENTHUB_EMAIL }}
+          EVENTHUB_PASSWORD: ${{ secrets.EVENTHUB_PASSWORD }}
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: cucumber-report.html

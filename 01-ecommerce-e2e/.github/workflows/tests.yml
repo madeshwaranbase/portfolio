@@ -1,0 +1,28 @@
+name: EventHub Automation CI
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 20, cache: npm}
+      - run: npm install
+      - run: npx playwright install --with-deps
+      - run: npm run typecheck
+      - run: npm test
+        env:
+          EVENTHUB_EMAIL: ${{ secrets.EVENTHUB_EMAIL }}
+          EVENTHUB_PASSWORD: ${{ secrets.EVENTHUB_PASSWORD }}
+          OPENAPI_SPEC_URL: ${{ vars.OPENAPI_SPEC_URL }}
+          RUN_MUTATING_TESTS: "false"
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eventhub-test-artifacts
+          path: |
+            playwright-report/
+            test-results/
+            allure-results/
+          if-no-files-found: ignore

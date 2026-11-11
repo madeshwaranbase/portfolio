@@ -1,0 +1,21 @@
+{
+  "name": "06-visual-regression-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Stable screenshot baselines, component-level comparisons and visual change review.",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "test:headed": "playwright test --headed",
+    "test:visual": "playwright test tests/visual",
+    "update:visual": "playwright test tests/visual --update-snapshots"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "dotenv": "^16.5.0"
+  }
+}

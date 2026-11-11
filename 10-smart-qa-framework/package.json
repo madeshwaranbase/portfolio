@@ -1,0 +1,21 @@
+{
+  "name": "10-smart-qa-framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Integrated test architecture, shared fixtures, API/UI suites, tagging, quality gates and CI.",
+  "scripts": {
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "dotenv": "^16.5.0"
+  }
+}

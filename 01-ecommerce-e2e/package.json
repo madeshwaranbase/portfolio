@@ -1,13 +1,20 @@
 {
-  "name": "ecommerce-pw",
+  "name": "01-ecommerce-e2e",
   "version": "1.0.0",
   "private": true,
+  "description": "Full customer journey: authentication, event discovery, ticket selection, booking and booking history.",
   "scripts": {
-    "test": "npx playwright test",
-    "test:headed": "npx playwright test --headed",
-    "codegen": "npx playwright codegen"
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "test:ui": "playwright test tests/ui",
+    "test:headed": "playwright test --headed"
   },
   "devDependencies": {
-    "@playwright/test": "^1.45.0"
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "dotenv": "^16.5.0"
   }
 }

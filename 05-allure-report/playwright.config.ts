@@ -1,32 +1,27 @@
 import { defineConfig, devices } from '@playwright/test';
+import 'dotenv/config';
 
+const ci = Boolean(process.env.CI);
 export default defineConfig({
   testDir: './tests',
-  timeout: 30 * 1000,
   fullyParallel: true,
-  retries: process.env.CI ? 1 : 0,
-  reporter: [
-    ['list'],
-    [
-      'allure-playwright',
-      {
-        detail: true,
-        outputFolder: 'allure-results',
-        suiteTitle: true,
-        environmentInfo: {
-          framework: 'Playwright + TypeScript',
-          target_site: 'saucedemo.com',
-          os: process.platform,
-          node_version: process.version,
-        },
-      },
-    ],
-  ],
+  forbidOnly: ci,
+  retries: ci ? 2 : 0,
+  workers: ci ? 2 : undefined,
+  timeout: 45_000,
+  expect: { timeout: 10_000 },
+  reporter: [['list'], ['html', { outputFolder: 'playwright-report', open: 'never' }], ['allure-playwright', { resultsDir: 'allure-results', detail: true }]],
   use: {
-    baseURL: 'https://www.saucedemo.com',
+    baseURL: process.env.BASE_URL ?? 'https://eventhub.rahulshettyacademy.com',
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    actionTimeout: 12_000,
+    navigationTimeout: 20_000
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
+  ]
 });

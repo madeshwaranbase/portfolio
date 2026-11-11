@@ -1,19 +1,21 @@
 {
-  "name": "api-ui-hybrid",
+  "name": "04-api-ui-hybrid",
   "version": "1.0.0",
-  "description": "API + UI hybrid testing framework using Playwright, Cucumber and TypeScript",
+  "private": true,
+  "description": "OpenAPI contract discovery, configurable API operations, authentication chaining and UI/API consistency.",
   "scripts": {
-    "test": "cucumber-js",
-    "test:tags": "cucumber-js --tags",
-    "report": "open reports/cucumber-report.html || xdg-open reports/cucumber-report.html"
+    "test": "playwright test",
+    "test:chromium": "playwright test --project=chromium",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "test:ui": "playwright test tests/ui",
+    "test:api": "playwright test tests/api",
+    "test:headed": "playwright test --headed"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^11.1.1",
-    "@playwright/test": "^1.48.0",
-    "@types/node": "^22.7.5",
-    "axios": "^1.7.7",
-    "cucumber-html-reporter": "^7.1.1",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.6.3"
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^22.15.0",
+    "typescript": "^5.8.3",
+    "dotenv": "^16.5.0"
   }
 }

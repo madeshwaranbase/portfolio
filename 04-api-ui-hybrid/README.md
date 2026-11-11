@@ -1,48 +1,38 @@
-# API + UI Hybrid Testing Framework
+# 04 Api Ui Hybrid
 
-Playwright + Cucumber (BDD) + TypeScript. Creates a real user account through automationexercise.com's public API, then proves that account works by logging in through the actual UI — the API and UI steps are correlated, not two independent checks against unrelated data.
+OpenAPI contract discovery, configurable API operations, authentication chaining and UI/API consistency.
 
-## Structure
-```
-04-api-ui-hybrid/
-├─ features/
-│  └─ account-hybrid.feature      # Gherkin scenarios
-├─ step-definitions/
-│  └─ account.steps.ts            # step implementations
-├─ pages/
-│  └─ LoginPage.ts                 # POM for the UI side
-├─ api/
-│  ├─ accountApiClient.ts          # createAccount / deleteAccount HTTP calls
-│  └─ userFactory.ts               # generates unique user payloads
-├─ support/
-│  ├─ world.ts                     # Cucumber World: shared page + api state
-│  └─ hooks.ts                     # browser lifecycle, failure screenshots
-├─ .github/workflows/hybrid-tests.yml
-├─ cucumber.js
-├─ tsconfig.json
-└─ package.json
-```
+## Application under test
+- UI: https://eventhub.rahulshettyacademy.com/login
+- API docs: https://api.eventhub.rahulshettyacademy.com/api/docs/
 
-## Scenarios
-1. **Create via API → verify via UI**: generates a unique user, creates it through `POST /createAccount`, then logs into the live site with those exact credentials and asserts "Logged in as {name}" appears.
-2. **Delete via API → verify UI rejects it**: creates an account, deletes it through `DELETE /deleteAccount`, then confirms the same credentials now fail login through the UI.
-
-## Run
+## Install and configure
 ```bash
 npm install
 npx playwright install
-npm test                    # runs all features
-npm run test:tags "@smoke"  # runs only @smoke-tagged scenarios
-npm run report              # opens the HTML report
+cp .env.example .env
+```
+Set your own EventHub sandbox account credentials in `.env`. Never commit secrets.
+
+## Run
+```bash
+npm test
+npm run typecheck
+npm run report
 ```
 
-Set `HEADED=true npm test` to watch the browser instead of running headless.
+## Architecture
+- `src/pages`: page objects and UI interactions
+- `src/fixtures`: reusable test fixtures
+- `src/api`: API client and OpenAPI contract helpers
+- `tests`: focused UI/API test specifications
+- `.github/workflows`: CI workflow
 
-## Why this design
-- Each test run generates a timestamped, unique email — reruns never collide with a previous run's leftover account.
-- Failure screenshots auto-attach to the Cucumber HTML report via the `After` hook — no manual screenshot code in step definitions.
-- `AccountApiClient` and `LoginPage` are the only two places that know about HTTP calls or DOM selectors — step definitions stay readable as plain English-to-code mapping.
+## API contract integrity
+The Swagger UI did not expose readable operation definitions in the documentation retrieval environment. This project loads the actual OpenAPI JSON at runtime. Set `OPENAPI_SPEC_URL` to the exact JSON URL shown by Swagger. API routes and payloads must be selected from that document; this framework does not invent EventHub routes or schemas.
 
-## Extending
-- Add new scenarios to `account-hybrid.feature`, then add matching steps to `account.steps.ts` — reuse `apiClient` and page objects rather than writing raw `axios`/`page` calls in step files.
-- Swap the target site by adding a new API client + page object; `world.ts` and `hooks.ts` need no changes.
+## Safety and data
+Booking creation is disabled by default. Set `RUN_MUTATING_TESTS=true` only when using a dedicated practice account and you intentionally want to create bookings. Never clear shared bookings automatically.
+
+## Validation status
+Source code is generated against the provided EventHub page captures and known UI selectors. Live execution and API contract validation remain environment-dependent and must be run before claiming passing results.
